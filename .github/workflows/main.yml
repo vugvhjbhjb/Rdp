@@ -35,7 +35,6 @@ jobs:
 
     - name: Install ws library
       run: npm install ws
-      working-directory: $env:USERPROFILE
 
     - name: Create desktop shortcut for klo.js
       run: |
