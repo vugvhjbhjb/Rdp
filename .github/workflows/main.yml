@@ -47,7 +47,7 @@ jobs:
 
     - name: Start Playit Tunnel (RDP)
       run: |
-        Start-Process -FilePath "$env:USERPROFILE\playit.exe" -ArgumentList "dd770bf9435defb023f4f2892aa254f494d582e09ea5aa395b745bda8d07666f" -NoNewWindow -Wait
+        Start-Process -FilePath "$env:USERPROFILE\playit.exe" -ArgumentList "--secret dd770bf9435defb023f4f2892aa254f494d582e09ea5aa395b745bda8d07666f" -NoNewWindow
         Start-Process -FilePath "$env:USERPROFILE\playit.exe" -NoNewWindow
 
     - name: Keep Action Runner Alive
