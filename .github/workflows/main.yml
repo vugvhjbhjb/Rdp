@@ -45,11 +45,15 @@ jobs:
         $Shortcut.IconLocation = "C:\Program Files\nodejs\node.exe"
         $Shortcut.Save()
 
-    - name: Start Playit Tunnel (RDP)
+    - name: Start Playit and Set Up RDP Tunnel
+      env:
+        PLAYIT_AUTH_KEY: ${{ secrets.PL }} 
       run: |
-        Start-Process -FilePath "$env:USERPROFILE\playit.exe" -ArgumentList "--secret dd770bf9435defb023f4f2892aa254f494d582e09ea5aa395b745bda8d07666f" -NoNewWindow
+        Start-Process -FilePath "$env:USERPROFILE\playit.exe" -ArgumentList "--secret $env:PLAYIT_AUTH_KEY" -NoNewWindow -Wait
         Start-Process -FilePath "$env:USERPROFILE\playit.exe" -NoNewWindow
 
-    - name: Keep Action Runner Alive
+        
+    # Prevent workflow to stop
+    - name: Keep the GitHub Action Runner Alive
       run: |
-        Start-Sleep -Seconds 11800
+          Start-Sleep -Seconds 11800  # Adjust the duration based on your needs
